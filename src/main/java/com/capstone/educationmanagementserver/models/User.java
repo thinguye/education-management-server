@@ -25,7 +25,7 @@ public class User {
 	private String lastname;
 
 	@NotBlank
-	@Size(max = 20)
+	@Size(max = 50)
 	private String username;
 
 	@NotBlank
@@ -67,6 +67,7 @@ public class User {
 	}
 
 	public void setUsername(String username) {
+		username = username.substring(0,username.indexOf('@'));
 		this.username = username;
 	}
 

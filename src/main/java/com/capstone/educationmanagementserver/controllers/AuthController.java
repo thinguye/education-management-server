@@ -57,26 +57,21 @@ public class AuthController {
 
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-		String username = loginRequest.getUsername().contains("@") ? loginRequest.getUsername().substring(0, loginRequest.getUsername().indexOf("@")) : loginRequest.getUsername();
+		String username = loginRequest.getUsername().contains("@")
+				? loginRequest.getUsername().substring(0, loginRequest.getUsername().indexOf("@"))
+				: loginRequest.getUsername();
 		Authentication authentication = authenticationManager
-		         .authenticate(new UsernamePasswordAuthenticationToken
-		                  (username, 
-		                        loginRequest.getPassword()));
+				.authenticate(new UsernamePasswordAuthenticationToken(username, loginRequest.getPassword()));
 
-		      SecurityContextHolder.getContext()
-		              .setAuthentication(authentication);
-		      String jwt = jwtUtils.generateJwtToken(authentication);
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		String jwt = jwtUtils.generateJwtToken(authentication);
 
-		      UserDetailsImpl userDetails = (UserDetailsImpl) 
-		            authentication.getPrincipal();
-		      List<String> roles = userDetails.getAuthorities()
-		            .stream().map(item -> item.getAuthority())
-		            .collect(Collectors.toList());
-
-		      return ResponseEntity.ok(new JwtResponse(jwt,
-		            userDetails.getId(), 
-		            userDetails.getUsername(),
-		            userDetails.getEmail(), roles));
+		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+		List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
+				.collect(Collectors.toList());
+		JwtResponse temp = new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(),
+				roles);
+		return ResponseEntity.ok(temp);
 	}
 
 	@PostMapping("/signup")
