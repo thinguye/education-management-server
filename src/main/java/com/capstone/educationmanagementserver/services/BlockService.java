@@ -1,16 +1,18 @@
 package com.capstone.educationmanagementserver.services;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import com.capstone.educationmanagementserver.enums.Mandatory;
 import com.capstone.educationmanagementserver.models.Block;
 import com.capstone.educationmanagementserver.models.Curriculum;
+import com.capstone.educationmanagementserver.models.Subject;
 import com.capstone.educationmanagementserver.repositories.interfaces.IBlockRepository;
 import com.capstone.educationmanagementserver.repositories.interfaces.ICurriculumRepository;
 import com.capstone.educationmanagementserver.requests.block.AddBlock;
-import com.capstone.educationmanagementserver.requests.curriculum.UpdateCirriculumRequest;
 import com.capstone.educationmanagementserver.services.interfaces.IBlockService;
 
-import org.hibernate.validator.cfg.context.ReturnValueTarget;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +25,8 @@ public class BlockService implements IBlockService {
 
 	@Override
 	public void addBlock(AddBlock request) {
-		Block block = Block.builder().code(request.getCode()).name(request.getName()).curriculum(request.getCurriculum()).paraBlock(request.getParaBlock()).build();
+		Block block = Block.builder().code(request.getCode()).name(request.getName())
+				.curriculum(request.getCurriculum()).paraBlock(request.getParaBlock()).build();
 		iBlockRepository.save(block);
 	}
 
@@ -50,9 +53,45 @@ public class BlockService implements IBlockService {
 	}
 
 	@Override
-	public void updatingBlock(UpdateCirriculumRequest request) {
-		Block block = iBlockRepository.findById(request.getId());
-		iBlockRepository.save(block);		
+	public void updatingBlock(String id, Map<Subject, Mandatory> subjects) {
+		Block block = iBlockRepository.findById(id);
+		Integer tempTheoryCredit = block.getTheoryCredit();
+		Integer tempLabCredit = block.getLabCredit();
+		Curriculum c = block.getCurriculum();
+		Map<Subject, Mandatory> temp = block.getSubjects();
+		Set<Subject> keys = subjects.keySet();
+		Set<Subject> blockKeys = temp.keySet();
+		Integer countTheory = 0;
+		Integer countLab = 0;
+		for (Subject key : keys) {
+			if ((temp.containsKey(key) && !temp.get(key).equals(subjects.get(key))) || !temp.containsKey(key)) {
+				temp.put(key, subjects.get(key));
+				if (!temp.containsKey(key)) {
+					countTheory += key.getTheoryCredit();
+					countLab += key.getLabCredit();
+				}
+			}
+		}
+		for (Subject key : blockKeys) {
+			if (!subjects.containsKey(key)) {
+				temp.remove(key);
+				countTheory -= key.getTheoryCredit();
+				countLab -= key.getLabCredit();
+			}
+		}
+		block.setTheoryCredit(tempTheoryCredit + countTheory);
+		block.setLabCredit(tempLabCredit + countLab);
+		Block paraBlock = block.getParaBlock();
+		while (paraBlock != null) {
+			paraBlock.setTheoryCredit(paraBlock.getTheoryCredit() + countTheory);
+			paraBlock.setLabCredit(paraBlock.getLabCredit() + countLab);
+			iBlockRepository.save(paraBlock);
+			paraBlock = paraBlock.getParaBlock();
+		}
+		iBlockRepository.save(block);
+		c.setTheoryCredit(c.getTheoryCredit() + countTheory);
+		c.setLabCredit(c.getLabCredit() + countLab);
+		iCurriculumRepository.save(c);
 	}
 
 }

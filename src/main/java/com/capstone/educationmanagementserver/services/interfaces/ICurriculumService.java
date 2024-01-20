@@ -10,16 +10,10 @@ import com.capstone.educationmanagementserver.models.Subject;
 import com.capstone.educationmanagementserver.requests.curriculum.AddCurriculumRequest;
 import com.capstone.educationmanagementserver.requests.curriculum.AddElectivesRequest;
 import com.capstone.educationmanagementserver.requests.curriculum.AddSubjectToCurriculum;
-import com.capstone.educationmanagementserver.requests.curriculum.UpdateCirriculumRequest;
+import com.capstone.educationmanagementserver.requests.curriculum.UpdateBlockRequest;
 
 public interface ICurriculumService {
 	void addCirriculum(AddCurriculumRequest request);
-
-	void addSubject(String id, Subject subject);
-
-	void addElectiveSubject(AddElectivesRequest request);
-
-	void addListSubjects(String id, List<Subject> subjects, List<ElectiveSubject> electives);
 
 	void removeCirriculum(String id);
 
@@ -33,11 +27,4 @@ public interface ICurriculumService {
 
 	Curriculum getCirriculumByOrganization(Organization organization, Generation generation);
 
-	List<Subject> getSubjectByCurriculum(String id);
-
-	void addSubjectToCurriculum(AddSubjectToCurriculum request);
-
-	void updatingCurriculum(UpdateCirriculumRequest request);
-
-	List<ElectiveSubject> getElectiveByCurriculum(String id);
 }

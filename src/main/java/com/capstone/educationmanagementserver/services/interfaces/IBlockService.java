@@ -1,10 +1,12 @@
 package com.capstone.educationmanagementserver.services.interfaces;
 
 import java.util.List;
+import java.util.Map;
 
+import com.capstone.educationmanagementserver.enums.Mandatory;
 import com.capstone.educationmanagementserver.models.Block;
+import com.capstone.educationmanagementserver.models.Subject;
 import com.capstone.educationmanagementserver.requests.block.AddBlock;
-import com.capstone.educationmanagementserver.requests.curriculum.UpdateCirriculumRequest;
 
 public interface IBlockService {
 
@@ -18,7 +20,7 @@ public interface IBlockService {
 
 	void removeBlock(String id);
 
-	void updatingBlock(UpdateCirriculumRequest request);
+	void updatingBlock(String id, Map<Subject, Mandatory> subjects);
 
 
 }

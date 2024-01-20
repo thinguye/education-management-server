@@ -3,7 +3,7 @@ package com.capstone.educationmanagementserver.controllers;
 import com.capstone.educationmanagementserver.general.Response;
 import com.capstone.educationmanagementserver.general.Response.Status;
 import com.capstone.educationmanagementserver.requests.block.AddBlock;
-import com.capstone.educationmanagementserver.requests.curriculum.UpdateCirriculumRequest;
+import com.capstone.educationmanagementserver.requests.curriculum.UpdateBlockRequest;
 import com.capstone.educationmanagementserver.services.interfaces.IBlockService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,21 +57,13 @@ public class BlockController {
 	}
 
 	@PostMapping(value = "/update")
-	public Response create(@RequestBody UpdateCirriculumRequest request) {
+	public Response create(@RequestBody UpdateBlockRequest request) {
 		try {
-			iBlockService.updatingBlock(request);
+			iBlockService.updatingBlock(request.getId(),request.getSubjects());
 			return Response.ok().setStatus(Status.OK);
 		} catch (Exception e) {
 			return Response.ok().setErrors(e);
 		}
 	}
-	@PostMapping(value="/addSubjects")
-	public Response addSubjects(@RequestBody UpdateCirriculumRequest request) {
-		try {
-			iBlockService.updatingBlock(request);
-			return Response.ok().setStatus(Status.OK);
-		} catch (Exception e) {
-			return Response.ok().setErrors(e);
-		}
-	}
+
 }

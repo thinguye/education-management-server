@@ -3,7 +3,7 @@ package com.capstone.educationmanagementserver.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.capstone.educationmanagementserver.requests.curriculum.UpdateCirriculumRequest;
+import com.capstone.educationmanagementserver.requests.curriculum.UpdateBlockRequest;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -25,10 +25,6 @@ public class Curriculum {
 	Organization organization;
 	Integer theoryCredit;
 	Integer labCredit;
-	@DBRef
-	List<Subject> subjects;
-	@DBRef
-	List<ElectiveSubject> electiveSubjects;
 
 	@Builder
 	public Curriculum(String code, String name, Generation generation, Organization organization) {
@@ -36,17 +32,7 @@ public class Curriculum {
 		this.name = name;
 		this.generation = generation;
 		this.organization = organization;
-		this.subjects = new ArrayList<>();
-		this.electiveSubjects = new ArrayList<>();
 		this.theoryCredit = 0;
 		this.labCredit = 0;
-	}
-
-	public void updateCurriculum(UpdateCirriculumRequest request) {
-		this.code = request.getCode();
-		this.name = request.getName();
-		this.generation = request.getGeneration();
-		this.organization = request.getOrganization();
-		this.theoryCredit = request.getCredit();
 	}
 }
