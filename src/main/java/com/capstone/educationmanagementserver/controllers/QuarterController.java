@@ -9,12 +9,15 @@ import com.capstone.educationmanagementserver.services.interfaces.IQuarterServic
 import com.capstone.educationmanagementserver.services.interfaces.ISubjectInQuarterService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("api/quarter")
@@ -25,6 +28,7 @@ public class QuarterController {
 	
 	@Autowired
 	private ISubjectInQuarterService iSubjectInQuarterService;
+
 
 	@PostMapping(value = "/create")
 	public Response create(@RequestBody AddQuarterRequest request) {
@@ -98,5 +102,14 @@ public class QuarterController {
 	@GetMapping("/getSubjectById")
 	public Response getSubjectById(@RequestParam(value = "id", required = true) String id) {
 		return Response.ok().setPayload(iSubjectInQuarterService.getSubjectById(id));
+	}
+	@PostMapping(value="/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public Response importFile(@ModelAttribute MultipartFile file) {
+		try {
+			iQuarterService.addQuarterFromFile(file);
+			return Response.ok().setStatus(Status.OK);
+		} catch (Exception e) {
+			return Response.exception();
+		}
 	}
 }

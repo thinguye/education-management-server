@@ -11,4 +11,5 @@ public class AddSubjectToQuarter {
 	Quarter quarter;
 	Subject subject;
 	Lecturer lecturer;
+	Integer maxStudents;
 }

@@ -7,6 +7,7 @@ import com.capstone.educationmanagementserver.models.Year;
 import com.capstone.educationmanagementserver.repositories.interfaces.IQuarterRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -19,7 +20,9 @@ public class QuarterRepository implements IQuarterRepository {
 
 	@Override
 	public List<Quarter> findAll() {
-		return mongoTemplate.findAll(Quarter.class);
+		Query query = new Query();
+		query.with(Sort.by(Sort.Direction.DESC, "year", "name"));
+		return mongoTemplate.find(query, Quarter.class);
 	}
 
 	@Override

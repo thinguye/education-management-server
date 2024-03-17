@@ -5,6 +5,7 @@ import com.capstone.educationmanagementserver.general.Response.Status;
 import com.capstone.educationmanagementserver.requests.enrollment.AddEnrollmentRequest;
 import com.capstone.educationmanagementserver.requests.enrollment.UpdateEnrollmentRequest;
 import com.capstone.educationmanagementserver.requests.enrollment.UploadEnrollementRequest;
+import com.capstone.educationmanagementserver.requests.enrollment.UploadGradeRequest;
 import com.capstone.educationmanagementserver.services.interfaces.IEnrollmentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,9 +76,18 @@ public class EnrollmentController {
 	}
 
 	@PostMapping(value = "/update")
-	public Response create(@RequestBody UpdateEnrollmentRequest request) {
+	public Response update(@RequestBody UpdateEnrollmentRequest request) {
 		try {
 			iEnrollmentService.updateEnrollment(request);
+			return Response.ok().setStatus(Status.OK);
+		} catch (Exception e) {
+			return Response.ok().setErrors(e);
+		}
+	}
+	@PostMapping(value = "/updateGradeFile")
+	public Response updateFile(@ModelAttribute UploadGradeRequest request) {
+		try {
+			iEnrollmentService.updateGradeFromFile(request);
 			return Response.ok().setStatus(Status.OK);
 		} catch (Exception e) {
 			return Response.ok().setErrors(e);

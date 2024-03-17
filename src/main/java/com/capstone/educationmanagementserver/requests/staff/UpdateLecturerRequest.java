@@ -1,7 +1,7 @@
 package com.capstone.educationmanagementserver.requests.staff;
 
 import com.capstone.educationmanagementserver.enums.Gender;
-import com.capstone.educationmanagementserver.models.Organization;
+import com.capstone.educationmanagementserver.models.Department;
 
 import lombok.Data;
 
@@ -14,5 +14,5 @@ public class UpdateLecturerRequest {
 	String firstName;
 	String email;
 	Gender gender;
-	Organization organization;
+	Department organization;
 }

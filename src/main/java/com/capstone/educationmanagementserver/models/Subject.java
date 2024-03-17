@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -15,13 +16,12 @@ import lombok.Data;
 public class Subject {
 	@Id
 	String id;
+	@Indexed(unique = true)
 	String code;
 	String name;
 	Integer theoryCredit;
 	Integer labCredit;
-	@DBRef
 	List<Subject> prerequisites = new ArrayList<>();
-	@DBRef
 	List<Subject> previousCourses = new ArrayList<>();
 
 	@Builder

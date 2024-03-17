@@ -2,9 +2,15 @@ package com.capstone.educationmanagementserver.controllers;
 
 import com.capstone.educationmanagementserver.general.Response;
 import com.capstone.educationmanagementserver.general.Response.Status;
+import com.capstone.educationmanagementserver.models.Block;
+import com.capstone.educationmanagementserver.models.Curriculum;
+import com.capstone.educationmanagementserver.models.Subject;
+import com.capstone.educationmanagementserver.repositories.interfaces.ICurriculumRepository;
+import com.capstone.educationmanagementserver.repositories.interfaces.ISubjectRepository;
 import com.capstone.educationmanagementserver.requests.block.AddBlock;
 import com.capstone.educationmanagementserver.requests.curriculum.UpdateBlockRequest;
 import com.capstone.educationmanagementserver.services.interfaces.IBlockService;
+import com.capstone.educationmanagementserver.services.interfaces.ISubjectService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +24,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/block")
 @SuppressWarnings("rawtypes")
 public class BlockController {
+	@Autowired
+	private ICurriculumRepository iCurriculumRepository;
+	@Autowired
+	private ISubjectRepository iSubjectRepository;
 	@Autowired
 	private IBlockService iBlockService;
 
@@ -61,6 +71,17 @@ public class BlockController {
 		try {
 			iBlockService.updatingBlock(request.getId(),request.getSubjects());
 			return Response.ok().setStatus(Status.OK);
+		} catch (Exception e) {
+			return Response.ok().setErrors(e);
+		}
+	}
+	@GetMapping(value="/findBySubject")
+	public Response findBySubject(@RequestParam(value = "id", required = true) String id,@RequestParam(value = "curriculum", required = true) String curriculum) {
+		try {
+			Curriculum c = iCurriculumRepository.findById(curriculum);
+			Subject s = iSubjectRepository.findById(id);
+			Block b = iBlockService.getBlockBySubjectAndCurriculum(s,c);
+			return Response.ok().setPayload(b);
 		} catch (Exception e) {
 			return Response.ok().setErrors(e);
 		}

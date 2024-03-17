@@ -46,7 +46,7 @@ public class SubjectController {
 
 	@GetMapping("/getAll")
 	public Response getAll() {
-		return Response.ok().setPayload(iSubjectService.getAllSubject());
+                 		return Response.ok().setPayload(iSubjectService.getAllSubject());
 	}
 
 	@GetMapping("/getSubjectById")

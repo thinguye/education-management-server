@@ -11,4 +11,5 @@ public class AddBlock {
 	String name;
 	Block paraBlock;
 	Curriculum curriculum;
+	Integer credit;
 }

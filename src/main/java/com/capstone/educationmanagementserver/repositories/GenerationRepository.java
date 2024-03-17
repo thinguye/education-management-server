@@ -6,6 +6,7 @@ import com.capstone.educationmanagementserver.models.Generation;
 import com.capstone.educationmanagementserver.repositories.interfaces.IGenerationRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -18,7 +19,9 @@ public class GenerationRepository implements IGenerationRepository {
 
 	@Override
 	public List<Generation> findAll() {
-		return mongoTemplate.findAll(Generation.class);
+		Query query = new Query();
+		query.with(Sort.by(Sort.Direction.ASC, "year"));
+		return mongoTemplate.find(query, Generation.class);
 	}
 
 	@Override

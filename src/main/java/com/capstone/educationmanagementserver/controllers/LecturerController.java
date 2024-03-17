@@ -11,12 +11,15 @@ import com.capstone.educationmanagementserver.requests.staff.UpdateLecturerReque
 import com.capstone.educationmanagementserver.services.interfaces.ILecturerService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("api/lecturer")
@@ -26,14 +29,19 @@ public class LecturerController {
 	private ILecturerService iLecturerService;
 	@Autowired
 	private AuthController authController;
+	@PostMapping(value = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public Response addStudentsFromFile(@ModelAttribute MultipartFile file) {
+		try {
+			iLecturerService.addLecturersFromFile(file);
+			return Response.ok().setStatus(Status.OK);
+		} catch (Exception e) {
+			return Response.ok().setErrors(e);
+		}
+	}
 	@PostMapping(value = "/create")
 	public Response create(@RequestBody AddLecturerRequest request) {
 		try {
 			iLecturerService.addLecturer(request);
-			Set<String> roles = new HashSet<>();
-			roles.add("lecturer");
-			String password = String.valueOf(request.getDoB().getDate()).concat(String.valueOf(request.getDoB().getMonth())).concat(String.valueOf(request.getDoB().getYear()));
-			authController.registerUser(new SignupRequest(request.getFirstName(), request.getLastName(),request.getEmail(), roles, password));
 			return Response.ok().setStatus(Status.OK);
 		} catch (Exception e) {
 			return Response.exception();
@@ -53,6 +61,11 @@ public class LecturerController {
 	@GetMapping("/getLecturerByCode")
 	public Response getLecturerByCode(@RequestParam(value = "code", required = true) String code) {
 		return Response.ok().setPayload(iLecturerService.getLecturerByCode(code));
+	}
+	
+	@GetMapping("/getLecturerByEmail")
+	public Response getLecturerByEmail(@RequestParam(value = "email", required = true) String email) {
+		return Response.ok().setPayload(iLecturerService.getLecturerByEmail(email));
 	}
 
 	@GetMapping("/getLecturerByName")
@@ -79,4 +92,7 @@ public class LecturerController {
 			return Response.ok().setErrors(e);
 		}
 	}
+	
+
+
 }

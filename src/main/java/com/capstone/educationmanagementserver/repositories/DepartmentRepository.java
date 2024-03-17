@@ -2,7 +2,7 @@ package com.capstone.educationmanagementserver.repositories;
 
 import java.util.List;
 
-import com.capstone.educationmanagementserver.models.Organization;
+import com.capstone.educationmanagementserver.models.Department;
 import com.capstone.educationmanagementserver.repositories.interfaces.IDepartmentRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,29 +17,35 @@ public class DepartmentRepository implements IDepartmentRepository {
 	private MongoTemplate mongoTemplate;
 
 	@Override
-	public List<Organization> findAll() {
-		return mongoTemplate.findAll(Organization.class);
+	public List<Department> findAll() {
+		return mongoTemplate.findAll(Department.class);
 	}
 
 	@Override
-	public Organization findById(String Id) {
-		return mongoTemplate.findById(Id, Organization.class);
+	public Department findById(String Id) {
+		return mongoTemplate.findById(Id, Department.class);
 	}
 
 	@Override
-	public void save(Organization obj) {
+	public void save(Department obj) {
 		mongoTemplate.save(obj);
 	}
 
 	@Override
-	public void remove(Organization obj) {
+	public void remove(Department obj) {
 		mongoTemplate.remove(obj);
 	}
 
 	@Override
-	public List<Organization> findBySchool(String school) {
+	public List<Department> findBySchool(String school) {
 		Query query = new Query(Criteria.where("school").is(school));
-		return mongoTemplate.find(query, Organization.class);
+		return mongoTemplate.find(query, Department.class);
+	}
+
+	@Override
+	public Department findByCode(String code) {
+		Query query = new Query(Criteria.where("code").is(code));
+		return mongoTemplate.findOne(query, Department.class);
 	}
 
 }

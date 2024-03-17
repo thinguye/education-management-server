@@ -8,6 +8,7 @@ import com.capstone.educationmanagementserver.models.SubjectInQuarter;
 import com.capstone.educationmanagementserver.requests.enrollment.AddEnrollmentRequest;
 import com.capstone.educationmanagementserver.requests.enrollment.UpdateEnrollmentRequest;
 import com.capstone.educationmanagementserver.requests.enrollment.UploadEnrollementRequest;
+import com.capstone.educationmanagementserver.requests.enrollment.UploadGradeRequest;
 
 public interface IEnrollmentService {
 
@@ -28,5 +29,9 @@ public interface IEnrollmentService {
 	Enrollment getEnrollmentByStudentSubject(SubjectInQuarter s, Student st);
 
 	List<Enrollment> getSubjectByStudent(String id);
+
+	List<Enrollment> getEnrrollmentsByLecturer(String email);
+
+	void updateGradeFromFile(UploadGradeRequest request);
 
 }

@@ -2,6 +2,7 @@ package com.capstone.educationmanagementserver.services.interfaces;
 
 import java.util.List;
 import com.capstone.educationmanagementserver.models.Lecturer;
+import com.capstone.educationmanagementserver.models.SubjectInQuarter;
 import com.capstone.educationmanagementserver.requests.staff.AddLecturerRequest;
 import com.capstone.educationmanagementserver.requests.staff.UpdateLecturerRequest;
 
@@ -23,4 +24,6 @@ public interface ILecturerService {
 	void removeLecturer(String id);
 
 	void updateLecturer(UpdateLecturerRequest request);
+
+	Lecturer getLecturerByEmail(String email);
 }

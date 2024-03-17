@@ -1,6 +1,6 @@
 package com.capstone.educationmanagementserver.requests.department;
 
-import com.capstone.educationmanagementserver.models.Organization;
+import com.capstone.educationmanagementserver.models.Department;
 
 import org.springframework.data.mongodb.core.mapping.Unwrapped.Nullable;
 
@@ -12,5 +12,5 @@ public class UpdateDepartmentRequest {
 	String code;
 	String name;
 	@Nullable
-	Organization parent;
+	Department parent;
 }

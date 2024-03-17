@@ -47,5 +47,11 @@ public class LecturerRepository implements ILecturerRepository {
 		Query query = new Query(Criteria.where("code").is(code));
 		return mongoTemplate.findOne(query, Lecturer.class);
 	}
+	
+	@Override
+	public Lecturer findByEmail(String email) {
+		Query query = new Query(Criteria.where("email").is(email));
+		return mongoTemplate.findOne(query, Lecturer.class);
+	}
 
 }

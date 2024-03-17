@@ -4,7 +4,8 @@ import java.util.Date;
 
 import com.capstone.educationmanagementserver.enums.Gender;
 import com.capstone.educationmanagementserver.models.Generation;
-import com.capstone.educationmanagementserver.models.Organization;
+import com.capstone.educationmanagementserver.models.Major;
+import com.capstone.educationmanagementserver.models.Department;
 
 import lombok.Data;
 
@@ -17,7 +18,7 @@ public class UpdateStudentProfileRequest {
 	String code;
 	String email;
 	Gender gender;
-	Organization department;
+	Major department;
 	Generation generation;
 	Date dateOfBirth;
 }

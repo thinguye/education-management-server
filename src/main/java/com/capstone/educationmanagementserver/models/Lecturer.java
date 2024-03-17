@@ -16,12 +16,11 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 public class Lecturer extends HumanResource {
-	@DBRef
-	Organization organization;
+	Department organization;
 
 	@Builder
 	public Lecturer(String code, String lastName, String middleName, String firstName, String email, Gender gender,
-			Organization department) {
+			Department department) {
 		super(code, lastName, middleName, firstName, gender, email, Division.LECTURER);
 		this.organization = department;
 	}

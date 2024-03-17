@@ -2,7 +2,7 @@ package com.capstone.educationmanagementserver.services.interfaces;
 
 import java.util.List;
 
-import com.capstone.educationmanagementserver.models.Organization;
+import com.capstone.educationmanagementserver.models.Department;
 import com.capstone.educationmanagementserver.requests.department.AddDepartmentRequest;
 import com.capstone.educationmanagementserver.requests.department.UpdateDepartmentRequest;
 
@@ -14,9 +14,11 @@ public interface IDepartmentService {
 
 	void deleteById(String id);
 
-	List<Organization> getAllDepartments();
+	List<Department> getAllDepartments();
 
-	Organization getDepartmentById(String id);
+	Department getDepartmentById(String id);
 
-	List<Organization> getDepartmentsBySchool(String school);
+	List<Department> getDepartmentsBySchool(String school);
+
+	Department getDepartmentByCode(String code);
 }

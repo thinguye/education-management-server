@@ -42,7 +42,6 @@ public class YearController {
 	}
 
 	@GetMapping("/getYearById")
-	@PreAuthorize("hasRole('ROLE_STUDENT')")
 	public Response getYearById(@RequestParam(value = "id", required = true) String id) {
 		return Response.ok().setPayload(iYearService.getYearById(id));
 	}

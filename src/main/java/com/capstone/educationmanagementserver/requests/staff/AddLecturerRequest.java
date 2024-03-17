@@ -3,7 +3,7 @@ package com.capstone.educationmanagementserver.requests.staff;
 import java.util.Date;
 
 import com.capstone.educationmanagementserver.enums.Gender;
-import com.capstone.educationmanagementserver.models.Organization;
+import com.capstone.educationmanagementserver.models.Department;
 
 import lombok.Data;
 
@@ -16,5 +16,5 @@ public class AddLecturerRequest {
 	String email;
 	String gender;
 	Date doB;
-	Organization department;
+	Department department;
 }

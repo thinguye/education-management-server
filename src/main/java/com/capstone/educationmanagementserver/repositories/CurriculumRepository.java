@@ -4,7 +4,8 @@ import java.util.List;
 
 import com.capstone.educationmanagementserver.models.Curriculum;
 import com.capstone.educationmanagementserver.models.Generation;
-import com.capstone.educationmanagementserver.models.Organization;
+import com.capstone.educationmanagementserver.models.Major;
+import com.capstone.educationmanagementserver.models.Department;
 import com.capstone.educationmanagementserver.repositories.interfaces.ICurriculumRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,15 +46,23 @@ public class CurriculumRepository implements ICurriculumRepository {
 	}
 
 	@Override
-	public Curriculum findCurriculumByOrganization(Organization organization, Generation generation) {
-		Query query = new Query(Criteria.where("generation").is(generation).and("organization").is(organization));
+	public Curriculum findCurriculumByOrganization(Major organization, Generation generation) {
+		Query query = new Query(Criteria.where("organization").is(organization).and("generation")
+				.elemMatch(Criteria.where("_id").is(generation.getId())));
 		return mongoTemplate.findOne(query, Curriculum.class);
+
 	}
 
 	@Override
-	public List<Curriculum> getCurriculumsByOrganization(Organization organization) {
-		Query query = new Query(Criteria.where("organization").is(organization));
+	public List<Curriculum> getCurriculumsByOrganization(Department organization) {
+		Query query = new Query(Criteria.where("organization.department").is(organization));
 		return mongoTemplate.find(query, Curriculum.class);
+	}
+
+	@Override
+	public Curriculum getCurriculumByCode(String code) {
+		Query query = new Query(Criteria.where("code").is(code));
+		return mongoTemplate.findOne(query, Curriculum.class);
 	}
 
 }

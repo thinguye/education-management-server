@@ -27,4 +27,6 @@ public interface ISubjectService {
 	void removeSubject(String id);
 
 	void updatePrerequire(UpdateRequirements request);
+
+	List<Subject> courses(String temp);
 }

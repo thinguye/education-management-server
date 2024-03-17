@@ -9,4 +9,6 @@ public interface ILecturerRepository extends RepositoryManager<Lecturer> {
 	List<Lecturer> findByDepartment(String department);
 
 	Lecturer findByCode(String code);
+
+	Lecturer findByEmail(String email);
 }

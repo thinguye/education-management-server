@@ -14,7 +14,6 @@ public class Generation {
 	String id;
 	String code;
 	String name;
-	@DBRef
 	Year year;
 
 	@Builder
